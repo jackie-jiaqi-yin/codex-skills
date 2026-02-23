@@ -50,7 +50,7 @@ When collecting inputs, explain each field in plain language and give one concre
 
 If user gives only interest text, continue with defaults.
 
-## Optional Automation Inputs (Only If User Asks for Recurring Runs)
+## Optional Automation Inputs (When User Requests or Accepts Post-Run Prompt)
 
 Explain these in plain language before asking:
 
@@ -72,13 +72,30 @@ Use a short explanation like this before collecting values:
 
 "I can generate a latest arXiv summary for your topic. I need your topic, and optionally: time window (default 7 days), paper count (default 66), writing style (default academic formal), and an optional manual arXiv query if you already have one."
 
+## Mandatory Question Gate (Do Not Skip)
+
+Before running any command, the agent must ask questions first.
+
+1. If inputs are missing:
+- Ask for required `interest text` and optional `window days`, `max papers`, `report style`, and `manual arXiv query`.
+- Explain fields in plain language using the Input Explanation section.
+
+2. If the user already provided some or all inputs:
+- Restate the resolved run plan in one short block.
+- Ask for explicit confirmation (for example: "Proceed with this run?").
+- Do not execute scripts until the user confirms.
+
+3. Execution rule:
+- Never run `python scripts/workflow.py prepare ...` or any downstream script before question/confirmation is completed.
+- If no explicit confirmation is given, stay in input-collection mode.
+
 ## Workflow
 
 Follow this order.
 
 ### 1. Collect Inputs
 
-Collect the five inputs above. Use defaults when missing.
+Collect the five inputs above. Use defaults when missing, then ask for explicit confirmation before any execution.
 
 ### 2. Build Query
 
@@ -177,9 +194,18 @@ Confirm:
 - `<run_dir>/report.html`
 - `<run_dir>/report.pdf`
 
-### 8. Optional: Convert Scoped Run to Codex Automation
+### 8. Required Post-Run Question
 
-Only do this when the user explicitly asks for automation.
+After a successful run, always ask:
+
+"Would you like me to turn this run into a recurring Codex automation?"
+
+- If user says `no`: stop after sharing run outputs.
+- If user says `yes`: continue to Step 9.
+
+### 9. Optional: Convert Scoped Run to Codex Automation
+
+Do this only when the user says `yes` in Step 8 (or explicitly asks for automation).
 
 1. Collect and confirm automation inputs:
 - `automation name`
@@ -191,6 +217,7 @@ Only do this when the user explicitly asks for automation.
 - Fill all values using the confirmed scope (`interest text`, `window days`, `max papers`, `report style`, and optional manual query).
 - Do not leave placeholders like `<user_interest>` in the final prompt.
 - Keep schedule and workspace details out of the prompt body; those belong to automation fields.
+- Ensure prompt quality: include exact commands, expected artifacts, and fallback behavior.
 
 3. Propose automation directive:
 - Use `mode="suggested create"` and include `name`, `prompt`, `rrule`, `cwds`, `status`.
@@ -206,6 +233,8 @@ Prepare in one command:
 ```bash
 python scripts/workflow.py prepare --interest "<user_interest>"
 ```
+
+Quick mode is still subject to the Mandatory Question Gate above. Do not run it until the user confirms the resolved inputs.
 
 This command now also creates:
 
