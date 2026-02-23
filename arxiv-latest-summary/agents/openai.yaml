@@ -1,0 +1,4 @@
+interface:
+  display_name: "ArXiv Latest Summary"
+  short_description: "Create quick latest arXiv summaries"
+  default_prompt: "Use $arxiv-latest-summary to summarize the latest arXiv papers from my interests into a polished HTML/PDF report, then if I confirm scope, convert it into a Codex automation with a complete prompt."

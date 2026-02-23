@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{TITLE}}</title>
+  <style>{{CSS}}</style>
+</head>
+<body>
+  <div class="bg-orb orb-a"></div>
+  <div class="bg-orb orb-b"></div>
+
+  <main class="report-shell">
+    <header class="report-header">
+      <div class="kicker">ArXiv Education Brief</div>
+      <h1>{{TITLE}}</h1>
+      <p>Generated at {{GENERATED_AT}}</p>
+    </header>
+
+    <section class="report-body">
+      {{CONTENT}}
+    </section>
+
+    <footer class="report-footer">
+      <p>Prepared in Codex using latest arXiv metadata and Codex-native synthesis.</p>
+    </footer>
+  </main>
+</body>
+</html>
