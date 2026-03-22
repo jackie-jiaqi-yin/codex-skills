@@ -1,0 +1,138 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">codex-skills cover</title>
+  <desc id="desc">Product-style GitHub showcase cover for a scalable repository of installable Codex skills.</desc>
+  <defs>
+    <linearGradient id="bg" x1="94" y1="52" x2="1186" y2="606" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0D172A"/>
+      <stop offset="0.55" stop-color="#10203A"/>
+      <stop offset="1" stop-color="#08111F"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(286 132) rotate(30) scale(420 260)">
+      <stop stop-color="#2DD4BF" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#2DD4BF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1038 510) rotate(-18) scale(360 220)">
+      <stop stop-color="#F97316" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#F97316" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="panelStroke" x1="714" y1="96" x2="1162" y2="558" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#60A5FA" stop-opacity="0.55"/>
+      <stop offset="0.48" stop-color="#2DD4BF" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#F97316" stop-opacity="0.42"/>
+    </linearGradient>
+    <linearGradient id="cardA" x1="742" y1="190" x2="1096" y2="298" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#122A45"/>
+      <stop offset="1" stop-color="#163A5D"/>
+    </linearGradient>
+    <linearGradient id="cardB" x1="742" y1="318" x2="1096" y2="426" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1A2D23"/>
+      <stop offset="1" stop-color="#17372C"/>
+    </linearGradient>
+    <linearGradient id="cardC" x1="742" y1="446" x2="1096" y2="554" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2A1E18"/>
+      <stop offset="1" stop-color="#402A1E"/>
+    </linearGradient>
+    <filter id="panelShadow" x="674" y="70" width="504" height="500" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="18"/>
+      <feGaussianBlur stdDeviation="20"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.02 0 0 0 0 0.05 0 0 0 0 0.11 0 0 0 0.42 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_1" result="shape"/>
+    </filter>
+    <filter id="softShadow" x="722" y="164" width="394" height="136" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="12"/>
+      <feGaussianBlur stdDeviation="12"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.02 0 0 0 0 0.05 0 0 0 0 0.11 0 0 0 0.28 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_1" result="shape"/>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="640" rx="36" fill="url(#bg)"/>
+  <rect width="1280" height="640" rx="36" fill="url(#glowA)"/>
+  <rect width="1280" height="640" rx="36" fill="url(#glowB)"/>
+
+  <g opacity="0.14" stroke="#9FB3D9">
+    <path d="M0 116H1280"/>
+    <path d="M0 180H1280"/>
+    <path d="M0 244H1280"/>
+    <path d="M0 308H1280"/>
+    <path d="M0 372H1280"/>
+    <path d="M0 436H1280"/>
+    <path d="M0 500H1280"/>
+    <path d="M0 564H1280"/>
+    <path d="M164 0V640"/>
+    <path d="M292 0V640"/>
+    <path d="M420 0V640"/>
+    <path d="M548 0V640"/>
+    <path d="M676 0V640"/>
+    <path d="M804 0V640"/>
+    <path d="M932 0V640"/>
+    <path d="M1060 0V640"/>
+    <path d="M1188 0V640"/>
+  </g>
+
+  <rect x="78" y="82" width="214" height="38" rx="19" fill="#0F2747" stroke="#2DD4BF" stroke-opacity="0.42"/>
+  <circle cx="103" cy="101" r="5" fill="#2DD4BF"/>
+  <text x="119" y="107" fill="#D8F9F2" font-size="17" font-weight="700" font-family="'IBM Plex Mono', 'SFMono-Regular', monospace">SCALABLE CODEX SKILLS</text>
+
+  <text x="78" y="196" fill="white" font-size="94" font-weight="800" font-family="'Avenir Next', 'Segoe UI', sans-serif">codex-skills</text>
+  <text x="82" y="246" fill="#B8C7E6" font-size="27" font-weight="500" font-family="'IBM Plex Sans', 'Avenir Next', sans-serif" textLength="560" lengthAdjust="spacingAndGlyphs">A growing repo for reusable Codex workflows</text>
+
+  <text x="78" y="320" fill="#E7EEF9" font-size="23" font-weight="600" font-family="'IBM Plex Sans', 'Avenir Next', sans-serif" textLength="560" lengthAdjust="spacingAndGlyphs">Scale the repo without rewriting the landing page</text>
+
+  <g>
+    <rect x="78" y="352" width="186" height="48" rx="24" fill="#132844" stroke="#60A5FA" stroke-opacity="0.34"/>
+    <text x="108" y="382" fill="#EAF2FF" font-size="19" font-weight="700" font-family="'IBM Plex Sans', 'Avenir Next', sans-serif" textLength="126" lengthAdjust="spacingAndGlyphs">install by path</text>
+
+    <rect x="282" y="352" width="172" height="48" rx="24" fill="#11293B" stroke="#2DD4BF" stroke-opacity="0.34"/>
+    <text x="315" y="382" fill="#E6FFF9" font-size="19" font-weight="700" font-family="'IBM Plex Sans', 'Avenir Next', sans-serif" textLength="112" lengthAdjust="spacingAndGlyphs">local skill docs</text>
+
+    <rect x="472" y="352" width="170" height="48" rx="24" fill="#2C1F18" stroke="#F97316" stroke-opacity="0.34"/>
+    <text x="505" y="382" fill="#FFF1E8" font-size="19" font-weight="700" font-family="'IBM Plex Sans', 'Avenir Next', sans-serif" textLength="112" lengthAdjust="spacingAndGlyphs">scales cleanly</text>
+  </g>
+
+  <rect x="78" y="444" width="548" height="112" rx="24" fill="#0B1629" stroke="#1E3354"/>
+  <text x="104" y="480" fill="#7ED7C8" font-size="17" font-weight="700" font-family="'IBM Plex Mono', 'SFMono-Regular', monospace">$ skill-installer</text>
+  <text x="104" y="517" fill="#DCE7FA" font-size="20" font-weight="500" font-family="'IBM Plex Mono', 'SFMono-Regular', monospace">repo: jackie-jiaqi-yin/codex-skills</text>
+  <text x="104" y="548" fill="#9FB3D9" font-size="18" font-weight="500" font-family="'IBM Plex Mono', 'SFMono-Regular', monospace">path: &lt;skill-folder&gt;</text>
+
+  <g filter="url(#panelShadow)">
+    <rect x="714" y="92" width="424" height="460" rx="30" fill="#0A1424" stroke="url(#panelStroke)" stroke-width="1.5"/>
+  </g>
+
+  <rect x="742" y="118" width="368" height="42" rx="21" fill="#0E2038"/>
+  <circle cx="770" cy="139" r="6" fill="#2DD4BF"/>
+  <circle cx="793" cy="139" r="6" fill="#60A5FA"/>
+  <circle cx="816" cy="139" r="6" fill="#F97316"/>
+  <text x="842" y="146" fill="#D6E4FF" font-size="18" font-weight="700" font-family="'IBM Plex Sans', 'Avenir Next', sans-serif">Repo Overview</text>
+
+  <g filter="url(#softShadow)">
+    <rect x="746" y="176" width="346" height="88" rx="22" fill="url(#cardA)" stroke="#2F5B88"/>
+  </g>
+  <text x="772" y="205" fill="#92DFFF" font-size="16" font-weight="700" font-family="'IBM Plex Mono', 'SFMono-Regular', monospace">Folder Contract</text>
+  <text x="772" y="231" fill="white" font-size="25" font-weight="800" font-family="'Avenir Next', 'Segoe UI', sans-serif" textLength="238" lengthAdjust="spacingAndGlyphs">One folder, one skill</text>
+  <text x="772" y="255" fill="#CDEBFF" font-size="16" font-weight="500" font-family="'IBM Plex Sans', 'Avenir Next', sans-serif" textLength="278" lengthAdjust="spacingAndGlyphs">README.md and SKILL.md with optional scripts</text>
+
+  <g filter="url(#softShadow)">
+    <rect x="746" y="304" width="346" height="88" rx="22" fill="url(#cardB)" stroke="#2F6B56"/>
+  </g>
+  <text x="772" y="333" fill="#BAF5E4" font-size="16" font-weight="700" font-family="'IBM Plex Mono', 'SFMono-Regular', monospace">Install Pattern</text>
+  <text x="772" y="359" fill="white" font-size="24" font-weight="800" font-family="'Avenir Next', 'Segoe UI', sans-serif" textLength="264" lengthAdjust="spacingAndGlyphs">Pick a folder and install it</text>
+  <text x="772" y="383" fill="#D4FFF2" font-size="16" font-weight="500" font-family="'IBM Plex Sans', 'Avenir Next', sans-serif" textLength="286" lengthAdjust="spacingAndGlyphs">A single repo can ship many focused workflows</text>
+
+  <g filter="url(#softShadow)">
+    <rect x="746" y="432" width="346" height="88" rx="22" fill="url(#cardC)" stroke="#6B4631"/>
+  </g>
+  <text x="772" y="461" fill="#FFD7BE" font-size="16" font-weight="700" font-family="'IBM Plex Mono', 'SFMono-Regular', monospace">Repository Goal</text>
+  <text x="772" y="487" fill="white" font-size="24" font-weight="800" font-family="'Avenir Next', 'Segoe UI', sans-serif" textLength="262" lengthAdjust="spacingAndGlyphs">Keep adding skills over time</text>
+  <text x="772" y="511" fill="#FFE2D3" font-size="16" font-weight="500" font-family="'IBM Plex Sans', 'Avenir Next', sans-serif" textLength="292" lengthAdjust="spacingAndGlyphs">The landing page stays generic while docs stay local</text>
+
+  <rect x="1116" y="178" width="12" height="76" rx="6" fill="#60A5FA"/>
+  <rect x="1116" y="306" width="12" height="76" rx="6" fill="#2DD4BF"/>
+  <rect x="1116" y="434" width="12" height="76" rx="6" fill="#F97316"/>
+</svg>

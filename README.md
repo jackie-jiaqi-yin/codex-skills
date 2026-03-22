@@ -1,46 +1,87 @@
 # codex-skills
 
+![codex-skills cover](./assets/codex-skills-cover.svg)
+
 Custom Codex skills by [jackie-jiaqi-yin](https://github.com/jackie-jiaqi-yin).
 
-## Available skills
+## What This Repo Is
 
-- `arxiv-latest-summary`: Generate readable summaries of the latest arXiv papers and export HTML/PDF reports.
+This repository stores installable Codex skill folders.
 
-## Easiest install (ask Codex directly)
+Each top-level skill folder is expected to contain:
 
-In a Codex chat, copy/paste this:
+- `SKILL.md` as the actual Codex skill definition
+- `README.md` as the GitHub-facing usage guide
+- optional `agents/`, `scripts/`, `assets/`, and `references/` for implementation details
+
+The homepage stays generic on purpose so the repo can keep growing without rewriting this file every time a new skill is added.
+
+## Catalog
+
+Current skill folders in this repository:
+
+| Folder | Summary | Open |
+|---|---|---|
+| `arxiv-latest-summary` | Generate readable summaries of recent arXiv papers and export polished reports. | [README](./arxiv-latest-summary/README.md) |
+| `experiment-results-notebook` | Centralize messy experiment outputs into a structured research notebook with Markdown, LaTeX, and PDF exports. | [README](./experiment-results-notebook/README.md) |
+
+## Discover Available Skills
+
+List the top-level skill folders in this repository:
+
+```bash
+find . -mindepth 1 -maxdepth 1 -type d ! -name .git ! -name assets | sort
+```
+
+Then open the usage guide for the folder you want:
+
+```bash
+open ./<skill-folder>/README.md
+```
+
+Or browse directly on GitHub:
 
 ```text
-Use $skill-installer to install this skill from GitHub:
+<repo>/<skill-folder>/README.md
+```
+
+## Quick Start
+
+In a Codex chat, ask Codex to install one skill from this repo by folder path:
+
+```text
+Use $skill-installer to install a skill from GitHub:
 - repo: jackie-jiaqi-yin/codex-skills
-- path: arxiv-latest-summary
+- path: <skill-folder>
 After install, remind me to restart Codex.
 ```
 
-## Install from terminal (Codex `skill-installer`)
+If you want to install more than one, repeat the `path:` line with additional folder names.
 
-Run this from any terminal:
+## Install From Terminal
 
-```bash
-CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
-python "$CODEX_HOME/skills/.system/skill-installer/scripts/install-skill-from-github.py" \
-  --repo jackie-jiaqi-yin/codex-skills \
-  --path arxiv-latest-summary
-```
-
-If you add more skills later, install multiple in one command:
+Install one skill:
 
 ```bash
 CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 python "$CODEX_HOME/skills/.system/skill-installer/scripts/install-skill-from-github.py" \
   --repo jackie-jiaqi-yin/codex-skills \
-  --path arxiv-latest-summary \
-  --path <another-skill-folder>
+  --path <skill-folder>
 ```
 
-Restart Codex after install so new skills are loaded.
+Install several skills at once:
 
-## Install manually (no installer script)
+```bash
+CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
+python "$CODEX_HOME/skills/.system/skill-installer/scripts/install-skill-from-github.py" \
+  --repo jackie-jiaqi-yin/codex-skills \
+  --path <skill-folder-a> \
+  --path <skill-folder-b>
+```
+
+Restart Codex after install so newly added skills are loaded.
+
+## Install Manually
 
 ```bash
 git clone https://github.com/jackie-jiaqi-yin/codex-skills.git
@@ -48,60 +89,40 @@ cd codex-skills
 
 CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 mkdir -p "$CODEX_HOME/skills"
-cp -R arxiv-latest-summary "$CODEX_HOME/skills/"
+cp -R <skill-folder> "$CODEX_HOME/skills/"
 ```
 
-Restart Codex after copying files.
+Repeat the `cp -R` command for any additional skill folders you want to install.
 
-## Verify installation
+## Verify Installation
 
 ```bash
 CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 ls "$CODEX_HOME/skills"
 ```
 
-You should see `arxiv-latest-summary` in the output.
+You should see the skill folders you installed.
 
-## Starter: first run in Codex (Health AI example)
-
-After restarting Codex, copy/paste this into a Codex chat:
-
-```text
-Use $arxiv-latest-summary to generate a latest arXiv summary for health AI.
-Interest text: health AI for diagnostic applications.
-Window days: 30.
-Max papers: 50.
-Report style: academic.
-Use auto-generated query unless I provide a manual arXiv query.
-Start by restating the run plan and asking me to confirm before execution.
-```
-
-When finished, you should have artifacts like:
-
-- `outputs/<today>/health-ai-for-clinical-decision-support/report.md`
-- `outputs/<today>/health-ai-for-clinical-decision-support/report.html`
-- `outputs/<today>/health-ai-for-clinical-decision-support/report.pdf`
-
-## Update or reinstall a skill
-
-The installer stops if the destination already exists. Remove the old copy first, then reinstall:
+## Update Or Reinstall One Skill
 
 ```bash
 CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
-rm -rf "$CODEX_HOME/skills/arxiv-latest-summary"
+rm -rf "$CODEX_HOME/skills/<skill-folder>"
 python "$CODEX_HOME/skills/.system/skill-installer/scripts/install-skill-from-github.py" \
   --repo jackie-jiaqi-yin/codex-skills \
-  --path arxiv-latest-summary
+  --path <skill-folder>
 ```
 
 ## Uninstall
 
 ```bash
 CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
-rm -rf "$CODEX_HOME/skills/arxiv-latest-summary"
+rm -rf "$CODEX_HOME/skills/<skill-folder>"
 ```
 
-## Notes
+## Repository Conventions
 
-- This repository stores installable skill folders (each contains a `SKILL.md`).
-- For `arxiv-latest-summary`, running its Python workflow scripts may require extra Python packages (for example `requests`, `markdown2`, and one PDF backend like `weasyprint` or `reportlab`).
+- Every installable skill should live in its own top-level folder.
+- Every skill folder should keep its own `README.md` up to date so usage stays local to the skill.
+- The repository homepage should explain discovery and installation, not duplicate every skill's full documentation.
+- Skill-specific dependencies should be documented inside that skill's own README.
