@@ -67,6 +67,9 @@ def _analysis_brief(
         f"- Tables available: {chart_manifest.get('table_count', 0)}",
         f"- Display metrics: {', '.join(comparison.get('display_metrics', [])) or 'none'}",
         f"- Ranking metric: {comparison.get('ranking_metric') or 'none'} ({comparison.get('ranking_source', 'none')})",
+        f"- GitHub PR resolution source: {(github_context.get('resolution') or {}).get('source', 'none')}",
+        f"- Open PRs discovered: {len(github_context.get('open_pull_requests', []))}",
+        f"- Closed PRs discovered: {len(github_context.get('closed_pull_requests', []))}",
         "",
         "## Writing Rules",
         "- Answer the core methodology questions explicitly: what data enters the pipeline, how it is preprocessed, how it is split or sampled, what the model predicts, and how evaluation is done.",
@@ -127,6 +130,26 @@ def _analysis_brief(
         pr = github_context["pull_request"]
         lines.append("## Related PR")
         lines.append(f"- [{pr.get('title')}]({pr.get('html_url')})")
+        lines.append("")
+    open_prs = github_context.get("open_pull_requests", [])
+    if open_prs:
+        lines.append("## Open PR Context")
+        for pr in open_prs[:5]:
+            lines.append(
+                f"- #{pr.get('number')}: [{pr.get('title')}]({pr.get('html_url')})"
+                f" | head `{pr.get('head_ref')}` -> `{pr.get('base_ref')}`"
+                f" | state `{pr.get('state')}`"
+            )
+        lines.append("")
+    closed_prs = github_context.get("closed_pull_requests", [])
+    if closed_prs:
+        lines.append("## Recent Closed PR Context")
+        for pr in closed_prs[:5]:
+            lines.append(
+                f"- #{pr.get('number')}: [{pr.get('title')}]({pr.get('html_url')})"
+                f" | head `{pr.get('head_ref')}` -> `{pr.get('base_ref')}`"
+                f" | state `{pr.get('state')}`"
+            )
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"
 
@@ -262,7 +285,8 @@ def _prepare(args: argparse.Namespace) -> int:
         "chart_manifest": str(run_dir / "chart_manifest.json"),
         "workspace_config": str(config_path),
         "checkpoint": str(checkpoint_path),
-        "github_pr_url": args.github_pr_url or "",
+        "github_pr_url": ((github_context.get("pull_request") or {}).get("html_url") or args.github_pr_url or ""),
+        "github_pr_source": (github_context.get("resolution") or {}).get("source", "none"),
         "template": str(SCRIPT_DIR.parent / "assets" / "report_template.tex"),
     }
     _write_run_manifest(run_dir / "run_manifest.json", run_manifest)
