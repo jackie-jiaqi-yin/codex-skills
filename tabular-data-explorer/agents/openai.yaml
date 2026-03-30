@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tabular Data Explorer"
+  short_description: "Explore mixed-format tabular data"
+  default_prompt: "Use $tabular-data-explorer to profile my dataset and generate an interactive HTML report."
