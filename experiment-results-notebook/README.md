@@ -47,11 +47,12 @@ Optional:
 - `direction` as `max` or `min`
 - `study title`
 - `scope subdir`
-- `GitHub PR URL`
+- `GitHub PR URL` as an explicit override
 - `experiment globs`
 - `ignore globs`
 
 The skill persists the metric rule in `.experiment-results-notebook/state/workspace_config.yaml`, but it can still run without one. If no strong primary metric is provided, it should infer which result metrics are most useful to display.
+GitHub repo and PR context should be auto-discovered from the local repo by default, so users should not need to provide a GitHub link or PR number on a normal run.
 
 ## How To Use In Codex
 
@@ -72,6 +73,8 @@ Optional PR enrichment:
 GitHub PR URL: https://github.com/org/repo/pull/42
 ```
 
+Use that only when you want to force one PR. Otherwise the skill should inspect the local git remote, current branch, repo open PRs, and recent closed PRs automatically.
+
 Optional scan restrictions:
 
 ```text
@@ -84,7 +87,7 @@ Ignore globs: .venv/**, checkpoints/**
 1. You provide the repo root and any missing first-run settings.
 2. Codex restates the resolved run plan and waits for confirmation.
 3. The skill scans the repo for new or changed structured result files, plots, code, and git commits.
-4. It optionally fetches public GitHub repo and PR context.
+4. It auto-discovers public GitHub repo context from the local repo, then checks the current-branch PR plus repo open PRs and recent closed PRs when available.
 5. It identifies which metrics are actually useful to headline, instead of assuming every numeric field belongs in the summary.
 6. It extracts supporting methodology evidence from configs plus repo code such as preprocessing scripts, split/windowing utilities, and report scripts.
 7. It prepares manifests, comparisons, compact tables, selected plots, and an `analysis.md` template.
@@ -128,7 +131,9 @@ On a later run, if the skill detects those edits:
 
 ## GitHub Notes
 
-- Public GitHub repo and PR context work by default.
+- Public GitHub repo and PR context should be auto-resolved from the local repo by default.
+- On first or baseline runs, the skill should inspect both open PRs and recent closed PRs so merged work is still visible in the notebook context.
+- On later runs, it should still prefer the current-branch PR when one exists.
 - Private GitHub access requires local authentication with `gh auth login`.
 - If GitHub context is unavailable, the skill continues with local-only analysis and reports what was skipped.
 
@@ -142,6 +147,8 @@ python scripts/workflow.py prepare \
   --primary-metric "accuracy" \
   --direction max
 ```
+
+Only add `--github-pr-url` when you intentionally want to override the auto-detected PR context.
 
 Finalize after `analysis.md` is written:
 

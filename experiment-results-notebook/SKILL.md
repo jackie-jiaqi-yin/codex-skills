@@ -20,9 +20,14 @@ The workflow is designed for iterative research:
 
 The notebook is user-editable. If the user manually adds or rewrites content and a later run detects those edits, treat them as source material and polish them in place while preserving the meaning.
 
-## Inputs (Explain Before Asking)
+## Inputs (Resolve Locally Before Asking)
 
-Before collecting values, explain each field in plain language with one concrete example.
+Before asking the user for anything beyond `workspace root`, first resolve what you can from persisted state and the local repo itself.
+
+- Read `.experiment-results-notebook/state/workspace_config.yaml` if it already exists.
+- Inspect local git remotes and the current branch to infer GitHub repo and PR context.
+- Treat explicit GitHub input from the user as an override, not a default requirement.
+- If `workspace root` is already the current repo, do not ask the user for the GitHub link or PR list.
 
 1. `workspace root` (required)
 - Meaning: the repo root to analyze.
@@ -44,9 +49,10 @@ Before collecting values, explain each field in plain language with one concrete
 - Meaning: restrict analysis to a subdirectory inside the repo.
 - Example: `runs/ablation_round_3`.
 
-6. `GitHub PR URL` (optional)
-- Meaning: enrich the run with PR context when the experiment is tied to a pull request.
-- Example: `https://github.com/org/repo/pull/42`.
+6. `GitHub PR URL` (optional override only)
+- Meaning: force one specific PR when the user wants to override auto-discovery.
+- Default behavior: infer GitHub repo and PR context from the local repo, current branch, repo open PRs, and recent closed PRs.
+- Example override: `https://github.com/org/repo/pull/42`.
 
 7. `experiment globs` (optional)
 - Meaning: include only paths matching these glob patterns.
@@ -60,21 +66,31 @@ If the user only gives `workspace root`, continue. Ask for a primary metric only
 
 ## GitHub Rules
 
-- Public GitHub repo and PR context are supported by default.
+- Public GitHub repo and PR context should be auto-resolved from the local git remotes and current branch by default.
+- On first-time or baseline runs, inspect both open PRs and recent closed PRs so historical experiment context is not lost.
+- On later runs, prefer the current-branch PR when one exists, but still keep repo-level PR summaries available.
 - Private repo or PR access requires the user to authenticate locally with `gh auth login`.
 - If GitHub access is unavailable, continue with local-only analysis and say exactly what context was skipped.
 
 ## Mandatory Question Gate
 
-Do not run commands until the following is complete.
+Do not start `workflow.py prepare` until the following is complete.
 
-1. Collect or resolve missing inputs.
+Lightweight local inspection is allowed before confirmation when it helps resolve values automatically.
+
+1. Resolve what you can without asking:
+- workspace root from the user prompt or current repo,
+- persisted config from `.experiment-results-notebook/state/workspace_config.yaml`,
+- GitHub repo from local git remotes,
+- current-branch PR if any,
+- repo open PRs,
+- recent closed PRs, especially on a first run.
 2. Restate the resolved run plan in one short block:
 - workspace root
 - study title
 - primary metric and direction
 - scope subdir if any
-- GitHub PR URL if any
+- GitHub repo and resolved PR context if any
 - experiment globs / ignore globs if any
 3. Ask for explicit confirmation.
 4. Only continue after the user confirms.
@@ -93,7 +109,12 @@ python scripts/workflow.py prepare \
   --primary-metric "<primary_metric>" \
   --direction <max_or_min> \
   --study-title "<study_title>" \
-  --scope-subdir "<scope_subdir>" \
+  --scope-subdir "<scope_subdir>"
+```
+
+Only add the override flag when the user explicitly wants to force one PR:
+
+```bash
   --github-pr-url "<github_pr_url>"
 ```
 
@@ -202,6 +223,8 @@ Confirm these exist:
 
 - First run creates the baseline entry.
 - Later runs summarize only new or changed artifacts since the checkpoint.
+- Never require the user to provide a GitHub repo link or PR number when the local repo already exposes that information.
+- Treat explicit GitHub PR input as an override only; otherwise auto-discover from local git state plus repo PR summaries.
 - The notebook's first responsibility is centralization and summarization of existing experiments, not forcing every run into a rigid metric matrix.
 - When many metrics are present, choose a small set of headline result metrics plus optional supporting diagnostics rather than dumping every numeric field.
 - Supporting code outside the scoped experiment artifact folders may still be methodologically essential. Use repo-level configs, preprocessing scripts, data pipeline code, split utilities, and report scripts when the experiment outputs alone are too shallow.

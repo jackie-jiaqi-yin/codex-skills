@@ -1,4 +1,4 @@
 interface:
   display_name: "Experiment Results Notebook"
   short_description: "Track experiment deltas into paper-style notes"
-  default_prompt: "Use $experiment-results-notebook to scan one experiment repo, summarize the new methodology and results into a polished notebook, and export Markdown, LaTeX, and PDF outputs."
+  default_prompt: "Use $experiment-results-notebook to scan one experiment repo, auto-detect GitHub repo and PR context from the local checkout, summarize the new methodology and results into a polished notebook, and export Markdown, LaTeX, and PDF outputs."
