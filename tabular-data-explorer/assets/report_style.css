@@ -1,0 +1,261 @@
+:root {
+  color-scheme: light;
+  --bg: #f5efe6;
+  --panel: rgba(255, 252, 247, 0.88);
+  --panel-strong: rgba(255, 249, 240, 0.96);
+  --line: rgba(107, 72, 37, 0.14);
+  --text: #1f1a17;
+  --muted: #6b625c;
+  --accent: #a4452a;
+  --accent-soft: #e6b89c;
+  --accent-strong: #7f2f1d;
+  --shadow: 0 18px 55px rgba(88, 56, 30, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(230, 184, 156, 0.55), transparent 28%),
+    radial-gradient(circle at top right, rgba(169, 196, 189, 0.45), transparent 25%),
+    linear-gradient(180deg, #fbf7f0 0%, var(--bg) 100%);
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+}
+
+.page-shell {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 28px 20px 56px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.92fr);
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: linear-gradient(145deg, rgba(255, 250, 244, 0.98), rgba(247, 239, 228, 0.92));
+  box-shadow: var(--shadow);
+}
+
+.eyebrow,
+.section-kicker {
+  margin: 0 0 10px;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero h1,
+.section-header h2 {
+  margin: 0;
+  font-family: "Iowan Old Style", "Palatino Linotype", serif;
+  font-weight: 700;
+}
+
+.hero h1 {
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  line-height: 1.08;
+}
+
+.subtitle {
+  max-width: 500px;
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.48;
+}
+
+.hero-meta,
+.summary-grid,
+.chart-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.hero-meta {
+  align-content: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.summary-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin-top: 18px;
+}
+
+.metric-card,
+.meta-card,
+.narrative-card,
+.section-shell,
+.chart-card {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
+
+.metric-card,
+.meta-card {
+  padding: 14px 16px;
+}
+
+.metric-label,
+.meta-label {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.metric-value,
+.meta-value {
+  margin: 8px 0 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.metric-subtext {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.narrative-card,
+.section-shell {
+  margin-top: 18px;
+  padding: 18px;
+}
+
+.section-header {
+  margin-bottom: 18px;
+}
+
+.section-header p {
+  margin-bottom: 8px;
+}
+
+.section-shell .section-description {
+  margin: 0 0 14px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.narrative-body {
+  font-family: "Iowan Old Style", "Palatino Linotype", serif;
+  font-size: 1.06rem;
+  line-height: 1.8;
+}
+
+.narrative-body h1,
+.narrative-body h2,
+.narrative-body h3 {
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  margin-top: 1.6em;
+  margin-bottom: 0.5em;
+}
+
+.narrative-body p,
+.narrative-body ul {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.narrative-body li {
+  margin-bottom: 0.4em;
+}
+
+.chart-grid {
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+}
+
+.chart-card {
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.chart-card.sidecar {
+  grid-template-columns: minmax(0, 1.15fr) minmax(220px, 0.85fr);
+  align-items: center;
+}
+
+.chart-card h3 {
+  margin: 0 0 4px;
+  font-size: 1.08rem;
+}
+
+.chart-subtitle {
+  margin: 0 0 8px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.chart-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: #fffaf2;
+}
+
+.chart-card.sidecar .chart-image {
+  max-height: 220px;
+  object-fit: contain;
+}
+
+.chart-context {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+.chart-context strong,
+.chart-term-note {
+  color: var(--accent-strong);
+}
+
+.chart-term-note {
+  margin: 6px 0 0;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.empty-state {
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255, 249, 240, 0.72);
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-meta,
+  .chart-card.sidecar {
+    grid-template-columns: 1fr;
+  }
+
+  .page-shell {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

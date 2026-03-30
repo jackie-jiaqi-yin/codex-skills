@@ -24,6 +24,7 @@ Current skill folders in this repository:
 |---|---|---|
 | `arxiv-latest-summary` | Generate readable summaries of recent arXiv papers and export polished reports. | [README](./arxiv-latest-summary/README.md) |
 | `experiment-results-notebook` | Centralize messy experiment outputs into a structured research notebook with Markdown, LaTeX, and PDF exports. | [README](./experiment-results-notebook/README.md) |
+| `tabular-data-explorer` | Explore health and life-science tabular datasets with explainable HTML reports, missingness review, and multicollinearity-aware charts. | [README](./tabular-data-explorer/README.md) |
 
 ## Discover Available Skills
 

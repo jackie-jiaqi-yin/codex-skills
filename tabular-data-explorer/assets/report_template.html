@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>${title}</title>
+    <style>
+${css}
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Tabular Data Explorer</p>
+          <h1>${title}</h1>
+          <p class="subtitle">${subtitle}</p>
+        </div>
+        <div class="hero-meta">${meta_cards}</div>
+      </header>
+
+      <section class="summary-grid">
+${summary_cards}
+      </section>
+
+      <section class="narrative-card">
+        <div class="section-header">
+          <p class="section-kicker">Narrative</p>
+          <h2>Grounded interpretation</h2>
+        </div>
+${narrative_html}
+      </section>
+
+${sections_html}
+    </div>
+  </body>
+</html>
