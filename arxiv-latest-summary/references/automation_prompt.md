@@ -34,6 +34,7 @@ From automation setup:
 - Keep schedule and workspace path out of prompt body.
 - Make the prompt self-sufficient: include exact commands, output expectations, and fallback behavior.
 - Keep the task focused on workflow execution, synthesis quality, and output reporting.
+- Keep scheduled reports concise. Do not request or add a paper appendix, and do not include every paper abstract in `report.md`, `report.html`, or `report.pdf` unless the user explicitly asks for full abstracts.
 
 ## Prompt Construction Pattern
 
@@ -69,6 +70,7 @@ Execution requirements:
 
 Output requirements:
 - Return a concise run summary with paper count, date range, and key themes.
+- Keep the generated report focused on synthesis and notable papers; do not append every paper abstract.
 - Return absolute paths for:
   - <run_dir>/query.json
   - <run_dir>/catalog.csv

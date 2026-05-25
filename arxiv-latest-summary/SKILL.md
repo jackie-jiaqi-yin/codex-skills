@@ -23,6 +23,7 @@ Default values:
 - Focus on educational synthesis and quick understanding.
 - Do not output numeric paper scores.
 - If user asks "which paper is best", provide qualitative recommendations (why to read first), not score formulas.
+- Keep final reports concise by default. Do not append a paper-by-paper abstract appendix or use `--include-appendix` unless the user explicitly requests full abstracts or an appendix.
 
 ## Input Explanation (Must Explain Before Asking)
 
@@ -166,6 +167,8 @@ python scripts/report_builder.py \
   --report-style "<report_style>" \
   --output-md "<run_dir>/report.md"
 ```
+
+Do not add `--include-appendix` in normal runs. The report should synthesize papers, not duplicate every abstract.
 
 ### 6. Export Pretty HTML + PDF
 

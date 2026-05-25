@@ -247,6 +247,18 @@ Combine:
 - `normal`: keep top 4-8 high-signal keywords.
 - `focused`: require at least two strong keywords with AND.
 
+## High-Precision Topic Patterns
+
+For `LLM post-training` or similar wording, do not split the phrase into standalone `post` or `training` tokens. Require both an LLM concept and a post-training concept:
+
+```text
+(cat:cs.CL OR cat:cs.AI OR cat:cs.LG)
+AND
+((ti:"llm" OR abs:"llm" OR ti:"large language model" OR abs:"large language model" OR ti:"language model" OR abs:"language model")
+ AND
+ (ti:"post-training" OR abs:"post-training" OR ti:"post training" OR abs:"post training" OR ti:"instruction tuning" OR abs:"instruction tuning" OR ti:"supervised fine-tuning" OR abs:"supervised fine-tuning" OR ti:"preference optimization" OR abs:"preference optimization" OR ti:"direct preference optimization" OR abs:"direct preference optimization" OR ti:"dpo" OR abs:"dpo" OR ti:"rlhf" OR abs:"rlhf" OR ti:"rlaif" OR abs:"rlaif" OR ti:"grpo" OR abs:"grpo" OR ti:"reward model" OR abs:"reward model" OR ti:"reinforcement learning" OR abs:"reinforcement learning"))
+```
+
 ## Fallback Rules
 
 - If user provides manual query, keep it.

@@ -7,23 +7,28 @@
   <style>{{CSS}}</style>
 </head>
 <body>
-  <div class="bg-orb orb-a"></div>
-  <div class="bg-orb orb-b"></div>
-
-  <main class="report-shell">
+  <article class="report-shell">
     <header class="report-header">
-      <div class="kicker">ArXiv Education Brief</div>
+      <div class="masthead">
+        <div>
+          <div class="kicker">ArXiv Education Brief</div>
+          <p class="source-note">Recent-paper synthesis for fast technical orientation.</p>
+        </div>
+        <p class="generated-at">
+          <span>Generated</span>
+          <strong>{{GENERATED_AT}}</strong>
+        </p>
+      </div>
       <h1>{{TITLE}}</h1>
-      <p>Generated at {{GENERATED_AT}}</p>
     </header>
 
-    <section class="report-body">
+    <section class="report-body" aria-label="Report content">
       {{CONTENT}}
     </section>
 
     <footer class="report-footer">
-      <p>Prepared in Codex using latest arXiv metadata and Codex-native synthesis.</p>
+      <p>Source metadata from arXiv. Follow paper links for primary details.</p>
     </footer>
-  </main>
+  </article>
 </body>
 </html>
