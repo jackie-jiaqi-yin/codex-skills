@@ -36,6 +36,34 @@ STOPWORDS = {
     "or",
 }
 
+GENERIC_SINGLE_TOKEN_BLOCKLIST = {
+    "approach",
+    "approaches",
+    "fine",
+    "framework",
+    "frameworks",
+    "learning",
+    "method",
+    "methods",
+    "model",
+    "models",
+    "post",
+    "system",
+    "systems",
+    "training",
+    "tuning",
+}
+
+HIGH_SIGNAL_SHORT_TOKENS = {
+    "ai",
+    "dpo",
+    "llm",
+    "rag",
+    "rl",
+    "sft",
+    "vla",
+}
+
 CATEGORY_RULES = [
     (("ai", "artificial intelligence"), ["cs.AI"]),
     (("llm", "large language model", "language model", "prompt", "rag", "retrieval"), ["cs.CL", "cs.AI"]),
@@ -55,7 +83,7 @@ CATEGORY_RULES = [
 ]
 
 SYNONYM_HINTS = {
-    "llm": ["large language model", "language model", "instruction tuning", "reasoning model"],
+    "llm": ["large language model", "language model"],
     "rag": ["retrieval augmented generation", "retrieval-augmented generation"],
     "agent": ["ai agent", "agentic workflow", "tool use"],
     "multimodal": ["vision language", "text image", "audio language"],
@@ -150,26 +178,47 @@ def _expand_keywords(base_keywords: list[str]) -> list[str]:
     return _dedupe_keep_order(expanded)
 
 
+def _tokenize_for_expansion(phrase: str) -> list[str]:
+    return [
+        tok
+        for tok in re.split(r"[^a-z0-9\-]+", phrase)
+        if tok and tok not in STOPWORDS
+    ]
+
+
+def _append_keyword_variant(expanded: list[str], phrase: str) -> None:
+    phrase_norm = _norm(phrase)
+    if not phrase_norm:
+        return
+    expanded.append(phrase_norm)
+    if "-" in phrase_norm:
+        expanded.append(phrase_norm.replace("-", " "))
+
+
 def _recall_expand_keywords(base_keywords: list[str]) -> list[str]:
     expanded: list[str] = []
     for phrase in base_keywords:
         phrase_norm = _norm(phrase)
-        tokens = [tok for tok in re.split(r"[^a-z0-9]+", phrase_norm) if tok and tok not in STOPWORDS]
+        tokens = _tokenize_for_expansion(phrase_norm)
         if not tokens:
             continue
 
-        expanded.append(phrase_norm)
+        _append_keyword_variant(expanded, phrase_norm)
 
         # For long phrases, add shorter variants to avoid over-constraining the query.
         if len(tokens) >= 3:
-            expanded.append(" ".join(tokens[:2]))
-            expanded.append(" ".join(tokens[-2:]))
+            _append_keyword_variant(expanded, " ".join(tokens[:2]))
+            _append_keyword_variant(expanded, " ".join(tokens[-2:]))
         if len(tokens) >= 4:
-            expanded.append(" ".join(tokens[:3]))
+            _append_keyword_variant(expanded, " ".join(tokens[:3]))
 
-        # Add high-signal single tokens.
+        # Add high-signal single tokens without turning phrases into generic one-word searches.
         for tok in tokens:
-            if len(tok) >= 4 or tok in {"ai", "llm", "rag"}:
+            if tok in GENERIC_SINGLE_TOKEN_BLOCKLIST:
+                continue
+            if "-" in tok:
+                _append_keyword_variant(expanded, tok)
+            elif len(tok) >= 5 or tok in HIGH_SIGNAL_SHORT_TOKENS:
                 expanded.append(tok)
 
     return _dedupe_keep_order(expanded)

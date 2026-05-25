@@ -483,7 +483,7 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--include-appendix",
         action="store_true",
-        help="Append table index and paper appendix to the report.",
+        help="Append table index and paper appendix to the report. Use only when full abstracts are explicitly requested.",
     )
     parser.add_argument("--output-md", required=True)
     return parser

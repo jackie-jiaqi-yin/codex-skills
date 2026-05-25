@@ -79,3 +79,4 @@ python scripts/workflow.py finalize --run-dir "<run_dir>"
 - This skill is designed to ask questions first and not execute until you confirm.
 - If you provide a manual arXiv query, it skips auto query generation.
 - For recurring runs, the skill can propose a Codex automation prompt after a successful report.
+- Reports omit paper-by-paper abstract appendices by default; use the optional appendix only when you explicitly want full abstracts.

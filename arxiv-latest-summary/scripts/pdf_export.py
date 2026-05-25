@@ -46,10 +46,10 @@ def _is_table_separator(line: str) -> bool:
     stripped = line.strip()
     if not stripped.startswith("|"):
         return False
-    core = stripped.strip("|").replace(" ", "")
-    if not core:
+    cells = [cell.strip().replace(" ", "") for cell in stripped.strip("|").split("|")]
+    if not cells:
         return False
-    return all(ch in "-:" for ch in core)
+    return all(bool(re.fullmatch(r":?-{3,}:?", cell)) for cell in cells)
 
 
 def _looks_like_table(lines: list[str], idx: int) -> bool:

@@ -247,6 +247,14 @@ Combine:
 - `normal`: keep top 4-8 high-signal keywords.
 - `focused`: require at least two strong keywords with AND.
 
+## Generic Precision Rules
+
+- Treat the user's interest as the source of truth; do not add topic-specific special cases for one run.
+- Preserve meaningful multi-word and hyphenated phrases. For example, keep both `policy optimization` and `policy-optimization` variants when relevant.
+- Do not turn low-information phrase fragments into standalone searches. Avoid standalone tokens such as `model`, `learning`, `post`, `training`, `fine`, or `tuning` unless the user explicitly made that token the topic.
+- Add synonyms only when they are generic aliases for the same concept, not adjacent subtopics. For example, `llm` can expand to `large language model`, but it should not automatically expand to a training method or evaluation area.
+- For one-off precision needs, ask for or use a manual arXiv query instead of encoding a permanent special-case pattern in the skill.
+
 ## Fallback Rules
 
 - If user provides manual query, keep it.
