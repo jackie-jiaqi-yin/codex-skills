@@ -36,6 +36,34 @@ STOPWORDS = {
     "or",
 }
 
+GENERIC_SINGLE_TOKEN_BLOCKLIST = {
+    "approach",
+    "approaches",
+    "fine",
+    "framework",
+    "frameworks",
+    "learning",
+    "method",
+    "methods",
+    "model",
+    "models",
+    "post",
+    "system",
+    "systems",
+    "training",
+    "tuning",
+}
+
+HIGH_SIGNAL_SHORT_TOKENS = {
+    "ai",
+    "dpo",
+    "llm",
+    "rag",
+    "rl",
+    "sft",
+    "vla",
+}
+
 CATEGORY_RULES = [
     (("ai", "artificial intelligence"), ["cs.AI"]),
     (("llm", "large language model", "language model", "prompt", "rag", "retrieval"), ["cs.CL", "cs.AI"]),
@@ -55,30 +83,13 @@ CATEGORY_RULES = [
 ]
 
 SYNONYM_HINTS = {
-    "llm": ["large language model", "language model", "instruction tuning", "reasoning model"],
+    "llm": ["large language model", "language model"],
     "rag": ["retrieval augmented generation", "retrieval-augmented generation"],
     "agent": ["ai agent", "agentic workflow", "tool use"],
     "multimodal": ["vision language", "text image", "audio language"],
     "safety": ["alignment", "robustness", "hallucination"],
     "benchmark": ["benchmark protocol", "leaderboard"],
 }
-
-LLM_POST_TRAINING_TERMS = [
-    "post-training",
-    "post training",
-    "instruction tuning",
-    "supervised fine-tuning",
-    "sft",
-    "preference optimization",
-    "direct preference optimization",
-    "dpo",
-    "rlhf",
-    "rlaif",
-    "grpo",
-    "reward model",
-    "reward modeling",
-    "reinforcement learning",
-]
 
 
 @dataclass
@@ -167,26 +178,47 @@ def _expand_keywords(base_keywords: list[str]) -> list[str]:
     return _dedupe_keep_order(expanded)
 
 
+def _tokenize_for_expansion(phrase: str) -> list[str]:
+    return [
+        tok
+        for tok in re.split(r"[^a-z0-9\-]+", phrase)
+        if tok and tok not in STOPWORDS
+    ]
+
+
+def _append_keyword_variant(expanded: list[str], phrase: str) -> None:
+    phrase_norm = _norm(phrase)
+    if not phrase_norm:
+        return
+    expanded.append(phrase_norm)
+    if "-" in phrase_norm:
+        expanded.append(phrase_norm.replace("-", " "))
+
+
 def _recall_expand_keywords(base_keywords: list[str]) -> list[str]:
     expanded: list[str] = []
     for phrase in base_keywords:
         phrase_norm = _norm(phrase)
-        tokens = [tok for tok in re.split(r"[^a-z0-9]+", phrase_norm) if tok and tok not in STOPWORDS]
+        tokens = _tokenize_for_expansion(phrase_norm)
         if not tokens:
             continue
 
-        expanded.append(phrase_norm)
+        _append_keyword_variant(expanded, phrase_norm)
 
         # For long phrases, add shorter variants to avoid over-constraining the query.
         if len(tokens) >= 3:
-            expanded.append(" ".join(tokens[:2]))
-            expanded.append(" ".join(tokens[-2:]))
+            _append_keyword_variant(expanded, " ".join(tokens[:2]))
+            _append_keyword_variant(expanded, " ".join(tokens[-2:]))
         if len(tokens) >= 4:
-            expanded.append(" ".join(tokens[:3]))
+            _append_keyword_variant(expanded, " ".join(tokens[:3]))
 
-        # Add high-signal single tokens.
+        # Add high-signal single tokens without turning phrases into generic one-word searches.
         for tok in tokens:
-            if len(tok) >= 4 or tok in {"ai", "llm", "rag"}:
+            if tok in GENERIC_SINGLE_TOKEN_BLOCKLIST:
+                continue
+            if "-" in tok:
+                _append_keyword_variant(expanded, tok)
+            elif len(tok) >= 5 or tok in HIGH_SIGNAL_SHORT_TOKENS:
                 expanded.append(tok)
 
     return _dedupe_keep_order(expanded)
@@ -195,23 +227,6 @@ def _recall_expand_keywords(base_keywords: list[str]) -> list[str]:
 def _single_keyword_clause(keyword: str) -> str:
     escaped = keyword.replace('"', "")
     return f'(ti:"{escaped}" OR abs:"{escaped}")'
-
-
-def _looks_like_llm_post_training(interest: str) -> bool:
-    normalized = _norm(interest).replace("-", " ")
-    has_llm = any(term in normalized for term in ("llm", "large language model", "language model"))
-    has_post_training = any(term in normalized for term in ("post train", "post training", "posttraining", "fine tuning", "finetuning"))
-    return has_llm and has_post_training
-
-
-def _build_llm_post_training_query() -> str:
-    llm_clause = "(" + " OR ".join(
-        _single_keyword_clause(term)
-        for term in ["llm", "large language model", "language model"]
-    ) + ")"
-    post_training_clause = "(" + " OR ".join(_single_keyword_clause(term) for term in LLM_POST_TRAINING_TERMS) + ")"
-    category_clause = _build_category_clause(["cs.CL", "cs.AI", "cs.LG"])
-    return f"{category_clause} AND ({llm_clause} AND {post_training_clause})"
 
 
 def _build_keyword_clause(keywords: list[str], strictness: str) -> str:
@@ -284,22 +299,6 @@ def build_query(
             categories=include_categories,
             keywords=[],
             notes=["Used user-provided query without modification."],
-        )
-
-    if _looks_like_llm_post_training(interest):
-        query = _build_llm_post_training_query()
-        ok, reason = validate_query_syntax(query)
-        if not ok:
-            raise ValueError(f"Generated query invalid: {reason}")
-        return QueryBuildResult(
-            interest=interest,
-            query=query,
-            strictness=strictness,
-            window_days=window_days,
-            max_results=max_results,
-            categories=["cs.CL", "cs.AI", "cs.LG"],
-            keywords=["llm", "large language model"] + LLM_POST_TRAINING_TERMS,
-            notes=["Used focused LLM post-training query pattern; avoided standalone generic tokens such as post or training."],
         )
 
     quoted = _extract_quoted_phrases(interest)

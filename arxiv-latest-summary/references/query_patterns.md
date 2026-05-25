@@ -247,17 +247,13 @@ Combine:
 - `normal`: keep top 4-8 high-signal keywords.
 - `focused`: require at least two strong keywords with AND.
 
-## High-Precision Topic Patterns
+## Generic Precision Rules
 
-For `LLM post-training` or similar wording, do not split the phrase into standalone `post` or `training` tokens. Require both an LLM concept and a post-training concept:
-
-```text
-(cat:cs.CL OR cat:cs.AI OR cat:cs.LG)
-AND
-((ti:"llm" OR abs:"llm" OR ti:"large language model" OR abs:"large language model" OR ti:"language model" OR abs:"language model")
- AND
- (ti:"post-training" OR abs:"post-training" OR ti:"post training" OR abs:"post training" OR ti:"instruction tuning" OR abs:"instruction tuning" OR ti:"supervised fine-tuning" OR abs:"supervised fine-tuning" OR ti:"preference optimization" OR abs:"preference optimization" OR ti:"direct preference optimization" OR abs:"direct preference optimization" OR ti:"dpo" OR abs:"dpo" OR ti:"rlhf" OR abs:"rlhf" OR ti:"rlaif" OR abs:"rlaif" OR ti:"grpo" OR abs:"grpo" OR ti:"reward model" OR abs:"reward model" OR ti:"reinforcement learning" OR abs:"reinforcement learning"))
-```
+- Treat the user's interest as the source of truth; do not add topic-specific special cases for one run.
+- Preserve meaningful multi-word and hyphenated phrases. For example, keep both `policy optimization` and `policy-optimization` variants when relevant.
+- Do not turn low-information phrase fragments into standalone searches. Avoid standalone tokens such as `model`, `learning`, `post`, `training`, `fine`, or `tuning` unless the user explicitly made that token the topic.
+- Add synonyms only when they are generic aliases for the same concept, not adjacent subtopics. For example, `llm` can expand to `large language model`, but it should not automatically expand to a training method or evaluation area.
+- For one-off precision needs, ask for or use a manual arXiv query instead of encoding a permanent special-case pattern in the skill.
 
 ## Fallback Rules
 

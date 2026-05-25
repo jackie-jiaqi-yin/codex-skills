@@ -24,6 +24,7 @@ Default values:
 - Do not output numeric paper scores.
 - If user asks "which paper is best", provide qualitative recommendations (why to read first), not score formulas.
 - Keep final reports concise by default. Do not append a paper-by-paper abstract appendix or use `--include-appendix` unless the user explicitly requests full abstracts or an appendix.
+- Keep automatic query generation topic-agnostic. Do not add hardcoded special-case query patterns for a single user's current interest; encode reusable query heuristics instead.
 
 ## Input Explanation (Must Explain Before Asking)
 
